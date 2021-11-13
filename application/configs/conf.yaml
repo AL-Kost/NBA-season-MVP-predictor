@@ -1,0 +1,49 @@
+data:
+  model:
+    path: data/model.joblib
+  player-stats:
+    path: data/player_stats.csv.zip
+    sep: ;
+    encoding: utf-8
+    compression: zip
+  mvp-votes:
+    path: data/mvp_votes.csv.zip
+    sep: ;
+    encoding: utf-8
+    compression: zip
+  team-standings:
+    path: data/team_standings.csv.zip
+    sep: ;
+    encoding: utf-8
+    compression: zip
+  bronze:
+    path: data/bronze.csv.zip
+    sep: ;
+    encoding: utf-8
+    compression: zip
+  silver:
+    path: data/silver.csv.zip
+    sep: ;
+    encoding: utf-8
+    compression: zip
+  gold:
+    path: data/gold.csv.zip
+    sep: ;
+    encoding: utf-8
+    compression: zip
+  predictions:
+    path: data/predictions.csv
+    sep: ;
+    encoding: utf-8
+  history:
+    path: data/history.csv
+    sep: ;
+    encoding: utf-8
+  features:
+    path: data/features.json
+    indent: 4
+    encoding: utf-8
+  performances:
+    path: data/performances.csv
+    sep: ;
+    encoding: utf-8
