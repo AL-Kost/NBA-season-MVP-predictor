@@ -3,11 +3,11 @@ import seaborn
 from matplotlib import pyplot
 
 
-def get_columns_with_inter_correlations_under(dataframe, treshold):
+def get_columns_with_inter_correlations_under(dataframe, threshold):
     data_curr = dataframe.copy()
     initial_num_cols = len(data_curr.columns)
     corr = get_column_pairs_correlation(data_curr)
-    corr = corr[corr > treshold]
+    corr = corr[corr > threshold]
     while len(corr) > 0:
         col_to_drop = corr.index.values[0][1]
         print(
@@ -15,7 +15,7 @@ def get_columns_with_inter_correlations_under(dataframe, treshold):
         )
         data_curr = data_curr.drop(col_to_drop, axis="columns")
         corr = get_column_pairs_correlation(data_curr)
-        corr = corr[corr > treshold]
+        corr = corr[corr > threshold]
     res = data_curr.columns
     print("Reduced number of columns from", initial_num_cols, "to", len(res))
     return res
