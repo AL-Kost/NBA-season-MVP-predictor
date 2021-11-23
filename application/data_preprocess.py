@@ -96,7 +96,7 @@ def scale_per_value_of(
     selected_cat_features,
     selected_num_features,
     fit_per_value_of,
-    min_max_scaler=True,
+    min_max_scaler=True
 ):
     if selected_num_features is None or len(selected_num_features) == 0:
         raise NotImplementedError("Need at least 1 numerical feature")
@@ -104,7 +104,7 @@ def scale_per_value_of(
         data[selected_num_features],
         fit_on=None,
         fit_per_values_of=fit_per_value_of,
-        min_max_scaler=min_max_scaler,
+        min_max_scaler=min_max_scaler
     )
     if selected_cat_features is not None and len(selected_cat_features) > 0:
         processed_cat_data = pandas.get_dummies(

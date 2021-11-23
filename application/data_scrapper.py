@@ -1,11 +1,9 @@
 import datetime
 from abc import ABC, abstractmethod
-
 import requests
 import pandas
 from bs4 import BeautifulSoup
 from basketball_reference_scraper.seasons import get_standings
-
 from utlis import util_functions
 from application import logger
 
@@ -34,7 +32,7 @@ class Scrapper(ABC):
             self,
             subset_by_teams: list = None,
             subset_by_seasons: list = None,
-            subset_by_stat_types: list = None,
+            subset_by_stat_types: list = None
     ):
         pass
 
@@ -71,7 +69,7 @@ class BasketballReferenceScrapper(Scrapper):
                 # "[^A-Za-z]", "", regex=True
                 "[ _'.*]",
                 "",
-                regex=True,
+                regex=True
             )
             data.loc[:, "MVP_WINNER"] = False
             data["RANK"] = (
@@ -136,7 +134,7 @@ class BasketballReferenceScrapper(Scrapper):
             "per_game": "per_game",
             "per_36min": "per_minute",
             "per_100poss": "per_poss",
-            "advanced": "advanced",
+            "advanced": "advanced"
         }
         stat_type = url_mapper[stat_type]
         url = f"{root_url}leagues/NBA_{season}_{stat_type}.html"
@@ -152,7 +150,7 @@ class BasketballReferenceScrapper(Scrapper):
                 # "[^-'a-zA-ZÀ-ÿ]", "", regex=True
                 "[ _'.*]",
                 "",
-                regex=True,
+                regex=True
             )
             data = data.rename(columns={"TM": "TEAM"})
             data = data.drop("RK", axis="columns")
@@ -237,7 +235,7 @@ class BasketballReferenceScrapper(Scrapper):
             self,
             subset_by_teams: list = None,
             subset_by_seasons: list = None,
-            subset_by_stat_types: list = None,
+            subset_by_stat_types: list = None
     ):
         """
         Get a set of stats.
@@ -253,7 +251,7 @@ class BasketballReferenceScrapper(Scrapper):
             "per_game",
             "per_36min",
             "per_100poss",
-            "advanced",
+            "advanced"
         ]
         allowed_seasons = range(1974, year + 1)
         allowed_teams = list(set(self.team_names.values()))
@@ -292,7 +290,7 @@ class BasketballReferenceScrapper(Scrapper):
                 "FT%",
                 "2P%",
                 "eFG%",
-                "MP",
+                "MP"
             ]
             stat_type_dfs = []
             for stat_type in stat_types:

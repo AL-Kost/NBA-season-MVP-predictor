@@ -1,8 +1,6 @@
 import joblib
 import json
-
 import pandas
-
 from application import conf
 
 
@@ -22,7 +20,7 @@ def load_player_stats(nrows: int = None):
         encoding=conf.data.player_stats.encoding,
         compression=conf.data.player_stats.compression,
         index_col=0,
-        nrows=nrows,
+        nrows=nrows
     )
 
 
@@ -33,7 +31,7 @@ def load_mvp_votes(nrows: int = None):
         encoding=conf.data.mvp_votes.encoding,
         compression=conf.data.mvp_votes.compression,
         index_col=0,
-        nrows=nrows,
+        nrows=nrows
     )
 
 
@@ -44,7 +42,7 @@ def load_team_standings(nrows: int = None):
         encoding=conf.data.team_standings.encoding,
         compression=conf.data.team_standings.compression,
         index_col=0,
-        nrows=nrows,
+        nrows=nrows
     )
 
 
@@ -55,7 +53,7 @@ def load_bronze_data(nrows: int = None):
         encoding=conf.data.bronze.encoding,
         compression=conf.data.bronze.compression,
         index_col=0,
-        nrows=nrows,
+        nrows=nrows
     )
 
 
@@ -66,7 +64,7 @@ def load_silver_data(nrows: int = None):
         encoding=conf.data.silver.encoding,
         compression=conf.data.silver.compression,
         index_col=0,
-        nrows=nrows,
+        nrows=nrows
     )
 
 
@@ -77,7 +75,7 @@ def load_gold_data(nrows: int = None):
         encoding=conf.data.gold.encoding,
         compression=conf.data.gold.compression,
         index_col=0,
-        nrows=nrows,
+        nrows=nrows
     )
 
 
@@ -89,7 +87,7 @@ def load_predictions(nrows: int = None):
         compression=conf.data.predictions.compression,
         index_col=0,
         nrows=nrows,
-        dtype={},
+        dtype={}
     )
 
 
@@ -101,7 +99,7 @@ def load_history(nrows: int = None):
         compression=conf.data.history.compression,
         index_col=False,
         nrows=nrows,
-        dtype={},
+        dtype={}
     )
 
 

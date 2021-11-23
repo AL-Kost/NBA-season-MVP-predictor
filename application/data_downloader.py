@@ -1,14 +1,12 @@
 from typing import List
-
 import requests
-
 from application import conf, logger
 from application import data_scrapper
 
 
 def download_data(
     seasons: List[int] = None,
-    scrapper: data_scrapper.Scrapper = data_scrapper.BasketballReferenceScrapper(),
+    scrapper: data_scrapper.Scrapper = data_scrapper.BasketballReferenceScrapper()
 ):
     logger.info("Downloading player stats...")
     try:
@@ -31,40 +29,40 @@ def download_player_stats(seasons: List[int], scrapper: data_scrapper.Scrapper):
     # We don't retrieve totals stats since we want to be able to predict at any moment in the season, no matter what
     data = scrapper.get_player_stats(
         subset_by_seasons=seasons,
-        subset_by_stat_types=["per_game", "per_36min", "per_100poss", "advanced"],
+        subset_by_stat_types=["per_game", "per_36min", "per_100poss", "advanced"]
     )
     data.to_csv(
         conf.data.player_stats.path,
         sep=conf.data.player_stats.sep,
         encoding=conf.data.player_stats.encoding,
         compression=conf.data.player_stats.compression,
-        index=True,
+        index=True
     )
 
 
 def download_mvp_votes(seasons: List[int], scrapper: data_scrapper.Scrapper):
     data = scrapper.get_mvp(
-        subset_by_seasons=seasons,
+        subset_by_seasons=seasons
     )
     data.to_csv(
         conf.data.mvp_votes.path,
         sep=conf.data.mvp_votes.sep,
         encoding=conf.data.mvp_votes.encoding,
         compression=conf.data.mvp_votes.compression,
-        index=True,
+        index=True
     )
 
 
 def download_team_standings(seasons: List[int], scrapper: data_scrapper.Scrapper):
     data = scrapper.get_team_standings(
-        subset_by_seasons=seasons,
+        subset_by_seasons=seasons
     )
     data.to_csv(
         conf.data.team_standings.path,
         sep=conf.data.team_standings.sep,
         encoding=conf.data.team_standings.encoding,
         compression=conf.data.team_standings.compression,
-        index=True,
+        index=True
     )
 
 
@@ -84,7 +82,7 @@ def download_data_from_url_to_file(
         verify=True,
         stream=stream,
         auth=auth,
-        headers=headers,
+        headers=headers
     )
     with open(path, "wb") as file_writer:
         if stream:

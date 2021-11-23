@@ -67,6 +67,6 @@ def plot_correlation_heatmap(dataframe, corner=True, method="pearson"):
         linewidths=0.5,
         cbar_kws={"shrink": 0.5},
         annot=True,
-        fmt=".2f",
+        fmt=".2f"
     )
     pyplot.title(method)

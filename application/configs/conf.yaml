@@ -47,3 +47,7 @@ data:
     path: data/performances.csv
     sep: ;
     encoding: utf-8
+
+
+web:
+  github-repo: AL-Kost/NBA-season-MVP-predictor

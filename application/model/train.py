@@ -4,7 +4,6 @@ import json
 from sklearn import model_selection, metrics, neural_network, base
 import pandas
 import numpy
-
 from application import conf, logger, data_preprocess
 from application.utlis import load, analyze
 
@@ -240,7 +239,7 @@ def make_gold_data_and_train_model():
     features_dict = {
         "cat": selected_cat_features,
         "num": selected_num_features,
-        "model": selected_features + selected_cat_features_numerized,
+        "model": selected_features + selected_cat_features_numerized
     }
     with open("data/features.json", "w") as outfile:
         json.dump(features_dict, outfile, indent=2)
@@ -249,7 +248,7 @@ def make_gold_data_and_train_model():
         hidden_layer_sizes=9,
         learning_rate="adaptive",
         learning_rate_init=0.065,
-        random_state=666,
+        random_state=666
     )
     regressors = [regressor]
 
@@ -272,7 +271,7 @@ def make_gold_data_and_train_model():
             len(regressors),
             ":",
             regressor_name,
-            non_default_params,
+            non_default_params
         )
 
         train_MAEs = []

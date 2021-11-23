@@ -35,7 +35,7 @@ def load_model_make_predictions(max_n=50):
         sep=conf.data.predictions.sep,
         encoding=conf.data.predictions.encoding,
         compression=conf.data.predictions.compression,
-        index=True,
+        index=True
     )
     try:
         history = load.load_history()
@@ -56,7 +56,7 @@ def load_model_make_predictions(max_n=50):
             sep=conf.data.history.sep,
             encoding=conf.data.history.encoding,
             compression=conf.data.history.compression,
-            index=False,
+            index=False
         )
 
 
