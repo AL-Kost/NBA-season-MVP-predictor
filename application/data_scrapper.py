@@ -4,7 +4,7 @@ import requests
 import pandas
 from bs4 import BeautifulSoup
 from basketball_reference_scraper.seasons import get_standings
-from utlis import util_functions
+from .utils import util_functions
 from application import logger
 
 
@@ -40,7 +40,7 @@ class Scrapper(ABC):
 class BasketballReferenceScrapper(Scrapper):
     def __init__(self):
         self.team_names = util_functions.get_dict_from_yaml(
-            "./nba_mvp_predictor/team_names.yaml"
+            "application/utils/team_names.yaml"
         )
 
     @staticmethod

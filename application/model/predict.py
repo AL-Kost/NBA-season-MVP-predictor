@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 import pandas
 from application import conf, logger, data_preprocess
-from application.utlis import load
+from application.utils import load
 from application.model import train
 
 

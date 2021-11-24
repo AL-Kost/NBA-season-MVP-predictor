@@ -1,11 +1,14 @@
 import logging
 import os
 
-from utlis.util_functions import get_dict_from_yaml
+from .utils import util_functions
 
 
 def get_conf():
-    return get_dict_from_yaml("../configs/conf.yaml")
+    return util_functions.get_dict_from_yaml("application/configs/conf.yaml")
+
+def get_sidebar():
+    return util_functions.get_dict_from_yaml('application/utils/sidebar.yaml')
 
 
 def get_logger():
@@ -27,3 +30,4 @@ def get_logger():
 
 logger = get_logger()
 conf = get_conf()
+sidebar = get_sidebar()
