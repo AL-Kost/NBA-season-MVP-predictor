@@ -35,11 +35,11 @@ jobs:
           name: history.csv
           latest: true
           path: ./data/
-      - name: Install dependencies from requirements.txt
+      - name: Install dependencies from Pipfile
         run: |
           python -m pip install --upgrade pip
           python -m pip install --upgrade pipenv
-          pip install -r ./requirements.txt
+          pipenv install --deploy
       - name: Run the CLI command to download data for season 2022
         run: |
           pipenv run python . download --season 2021 2022
