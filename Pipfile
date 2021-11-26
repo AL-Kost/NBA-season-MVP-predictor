@@ -11,7 +11,7 @@ streamlit = "*"
 pyyaml = "*"
 seaborn = "*"
 python-box = "*"
-nba-mvp-predictor = {editable = true, path = "./nba_mvp_predictor"}
+application = {editable = true, path = "./application"}
 basketball-reference-scraper = "*"
 scikit-learn = "*"
 lxml = "*"
