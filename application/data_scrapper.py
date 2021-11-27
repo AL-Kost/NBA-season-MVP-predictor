@@ -4,7 +4,9 @@ import requests
 import pandas
 from bs4 import BeautifulSoup
 from basketball_reference_scraper.seasons import get_standings
-from .utils import util_functions
+import sys
+sys.path.append("/NBA-season-MVP-predictor/application")
+from application.utils import util_functions
 from application import logger
 
 

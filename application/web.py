@@ -1,11 +1,14 @@
+import sys
+sys.path.append("/NBA-season-MVP-predictor/application")
 from datetime import datetime
 import os
 import re
 import streamlit as st
 import pandas
 from application import conf, sidebar, logger
-from . import data_downloader, artifacts
-from .model import evaluate
+from application import data_downloader, artifacts
+from application.model import evaluate
+
 
 # Constants
 PAGE_PREDICTIONS = "Current year predictions"

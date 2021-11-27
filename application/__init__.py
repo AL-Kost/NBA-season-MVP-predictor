@@ -1,7 +1,8 @@
 import logging
 import os
-
-from .utils import util_functions
+import sys
+sys.path.append("/NBA-season-MVP-predictor/application")
+from application.utils import util_functions
 
 
 def get_conf():

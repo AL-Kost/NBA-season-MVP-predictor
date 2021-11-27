@@ -1,10 +1,11 @@
+import sys
+sys.path.append("/NBA-season-MVP-predictor/application")
 from datetime import datetime
 import json
 import pandas
-from application import conf, logger
-from .. import data_preprocess
-from ..utils import load
-from . import train
+from application import conf, logger, data_preprocess
+from application.utils import load
+from application.model import train
 
 
 def load_model_make_predictions(max_n=50):

@@ -4,9 +4,10 @@ import json
 from sklearn import model_selection, metrics, neural_network, base
 import pandas
 import numpy
-from application import conf, logger
-from .. import data_preprocess
-from ..utils import load, analyze
+import sys
+sys.path.append("/NBA-season-MVP-predictor/application")
+from application import conf, logger, data_preprocess
+from application.utils import load, analyze
 
 
 def make_bronze_data():

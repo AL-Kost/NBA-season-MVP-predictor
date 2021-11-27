@@ -1,7 +1,9 @@
 from typing import List
 import requests
 from application import conf, logger
-from . import data_scrapper
+import sys
+sys.path.append("/NBA-season-MVP-predictor/application")
+from application import data_scrapper
 
 
 def download_data(

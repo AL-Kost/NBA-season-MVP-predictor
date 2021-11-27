@@ -1,8 +1,10 @@
 import argparse
 import sys
 import streamlit.cli
-from . import data_downloader
-from .model import train, predict
+import sys
+sys.path.append("/NBA-season-MVP-predictor/application")
+from application import data_downloader
+from application.model import train, predict
 
 
 def download_data(args=None):
