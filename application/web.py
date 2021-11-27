@@ -3,8 +3,9 @@ import os
 import re
 import streamlit as st
 import pandas
-from application import conf, sidebar, logger, data_downloader, artifacts
-from application.model import evaluate
+from application import conf, sidebar, logger
+from . import data_downloader, artifacts
+from .model import evaluate
 
 # Constants
 PAGE_PREDICTIONS = "Current year predictions"

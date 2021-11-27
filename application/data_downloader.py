@@ -1,7 +1,7 @@
 from typing import List
 import requests
 from application import conf, logger
-from application import data_scrapper
+from . import data_scrapper
 
 
 def download_data(

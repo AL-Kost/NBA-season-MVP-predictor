@@ -1,8 +1,8 @@
 import argparse
 import sys
 import streamlit.cli
-from application import data_downloader
-from application.model import train, predict
+from . import data_downloader
+from .model import train, predict
 
 
 def download_data(args=None):
