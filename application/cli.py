@@ -1,8 +1,6 @@
 import argparse
 import sys
 import streamlit.cli
-import sys
-sys.path.append("/NBA-season-MVP-predictor/application")
 from application import data_downloader
 from application.model import train, predict
 

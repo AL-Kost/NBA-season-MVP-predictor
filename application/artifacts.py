@@ -1,8 +1,6 @@
 from datetime import datetime
 import os
 import requests
-import sys
-sys.path.append("/NBA-season-MVP-predictor/application")
 from application import conf, logger
 
 

@@ -1,7 +1,5 @@
 import logging
 import os
-import sys
-sys.path.append("/NBA-season-MVP-predictor/application")
 from application.utils import util_functions
 
 

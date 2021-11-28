@@ -4,8 +4,6 @@ import json
 from sklearn import model_selection, metrics, neural_network, base
 import pandas
 import numpy
-import sys
-sys.path.append("/NBA-season-MVP-predictor/application")
 from application import conf, logger, data_preprocess
 from application.utils import load, analyze
 
