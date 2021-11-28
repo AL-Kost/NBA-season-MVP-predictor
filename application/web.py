@@ -1,5 +1,3 @@
-import sys
-sys.path.append("/NBA-season-MVP-predictor/application")
 from datetime import datetime
 import os
 import re

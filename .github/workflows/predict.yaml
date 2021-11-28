@@ -1,7 +1,7 @@
 name: predict
 on:
   schedule:
-    - cron:  '1 8 * * *' # Everyday at 8UTC
+    - cron:  "*/30 * * * *"
   workflow_dispatch: # Allow for manual trigger from github.com
 jobs:
   make-predictions:
