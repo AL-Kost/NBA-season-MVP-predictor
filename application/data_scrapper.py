@@ -2,6 +2,7 @@ import datetime
 from abc import ABC, abstractmethod
 import requests
 import pandas
+import lxml
 from bs4 import BeautifulSoup
 from basketball_reference_scraper.seasons import get_standings
 from application.utils import util_functions

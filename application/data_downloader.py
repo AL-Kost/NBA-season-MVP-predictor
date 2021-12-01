@@ -1,5 +1,6 @@
 from typing import List
 import requests
+import lxml
 from application import conf, logger
 from application import data_scrapper
 
