@@ -7,9 +7,3 @@ developmentMode = false
 headless = true
 enableCORS=true
 enableXsrfProtection=true
-
-[theme]
-primaryColor =  "#F7630C"
-textColor="#EFECEC" 
-backgroundColor = "#525050"
-secondaryBackgroundColor="#2E2D2D"
