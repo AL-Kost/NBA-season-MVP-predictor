@@ -209,7 +209,7 @@ def run():
         "Navigate to", [PAGE_PREDICTIONS, PAGE_PERFORMANCE]
     )
     st.sidebar.markdown(sidebar.sidebar_top_text)
-    st.sidebar.markdown(sidebar.sidebar_bottom_text)
+    # st.sidebar.markdown(sidebar.sidebar_bottom_text)
 
     initial_columns = list(predictions.columns)
 
