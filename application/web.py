@@ -205,6 +205,8 @@ def run():
     """
     )
 
+    st.sidebar.image("application/utils/nba_logo.png", use_column_width=True)
+
     navigation_page = st.sidebar.radio(
         "Navigate to", [PAGE_PREDICTIONS, PAGE_PERFORMANCE]
     )
