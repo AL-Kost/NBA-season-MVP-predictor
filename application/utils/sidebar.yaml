@@ -7,4 +7,4 @@ sidebar-top-text: >
     It is then used to predict this season MVP based on current data.
     The model predicts the *award share* (the number of points a player received for MVP award over the total points of all first-place votes).
     This share can then be converted to a probability using various methods (see *Predictions parameters*).
-sidebar-bot-text: You can also check Telegram bot, which is related to this project
+sidebar-bottom-text: You can also check related Telegram bot via this [link](http://t.me/NBA_MVP_Predictor_bot).
