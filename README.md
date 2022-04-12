@@ -36,6 +36,12 @@ Current solution:
   - Min-max scaling
   - Standardization
 
+## Data
+
+All data was scraped from https://www.basketball-reference.com/.
+
+Many thanks to the authors of the site for creating such a user-friendly repository of statistical data.
+
 ## Future work and model improvement
 
 - Learn PyTorch and replace sklearn.MLPRegressor with LSTM or other neural network architecture model
