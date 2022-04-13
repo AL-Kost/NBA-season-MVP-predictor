@@ -1,0 +1,35 @@
+name: predict
+on:
+  workflow_dispatch: # Allow for manual trigger from github.com
+jobs:
+  make-predictions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup timezone to Europe/Moscow
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: Europe/Moscow
+      - name: Check out to repo
+        uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Upload model as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: model.joblib
+          path: ./data/initial_model/model.joblib
+          retention-days: 90
+      - name: Upload features as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: features.json
+          path: ./data/initial_model/features.json
+          retention-days: 90
+      - name: Upload model performances as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: performances.csv
+          path: ./data/initial_model/performances.csv
+          retention-days: 90
