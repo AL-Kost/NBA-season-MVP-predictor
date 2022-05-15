@@ -105,7 +105,31 @@ def load_history(nrows: int = None):
 
 def load_features():
     with open(
-        conf.data.features.path, encoding=conf.data.features.encoding
+            conf.data.features.path, encoding=conf.data.features.encoding
     ) as json_file:
         features_dict = json.load(json_file)
     return features_dict
+
+
+def load_model_input(nrows: int = None):
+    return pandas.read_csv(
+        conf.data.model_input.path,
+        sep=conf.data.model_input.sep,
+        encoding=conf.data.model_input.encoding,
+        compression=conf.data.model_input.compression,
+        index_col=0,
+        nrows=nrows,
+        dtype={}
+    )
+
+
+def load_shap_values(nrows: int = None):
+    return pandas.read_csv(
+        conf.data.shap_values.path,
+        sep=conf.data.shap_values.sep,
+        encoding=conf.data.shap_values.encoding,
+        compression=conf.data.shap_values.compression,
+        index_col=0,
+        nrows=nrows,
+        dtype={}
+    )

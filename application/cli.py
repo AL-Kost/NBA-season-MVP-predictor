@@ -2,7 +2,7 @@ import argparse
 import sys
 import streamlit.cli
 from application import data_downloader
-from application.model import train, predict
+from application.model import train, predict, explain
 
 
 def download_data(args=None):
@@ -18,6 +18,11 @@ def train_model(args=None):
 def make_predictions(args=None):
     """Make predictions with the trained model"""
     predict.make_predictions()
+
+
+def explain_model(args=None):
+    """Explain model decisions"""
+    explain.explain_model()
 
 
 def run_webapp(args=None):
@@ -41,8 +46,9 @@ def get_parser():
         nargs="+",
         type=int,
     )
-    subparser.add_parser("train", help="Train a model on dowloaded data")
+    subparser.add_parser("train", help="Train a model on downloaded data")
     subparser.add_parser("predict", help="Make predictions with the trained model")
+    subparser.add_parser("explain", help="Explain the predictions made by the model")
     return parser
 
 
@@ -62,3 +68,5 @@ def run(args=None):
         train_model(args)
     elif args.command == "predict":
         make_predictions(args)
+    elif args.command == "explain":
+        explain_model(args)

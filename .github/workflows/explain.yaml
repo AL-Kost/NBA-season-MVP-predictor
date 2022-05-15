@@ -1,12 +1,12 @@
-name: predict
+name: explain
 env:
   LOG_LEVEL: INFO
 on:
   schedule:
-    - cron:  "0 8 * * *" # Everyday at 8UTC
+    - cron:  '0 9 * * *' # Everyday 1h after predictions
   workflow_dispatch: # Allow for manual trigger from github.com
 jobs:
-  make-predictions:
+  explain-predictions:
     runs-on: ubuntu-latest
     steps:
       - name: Setup timezone to Europe/Moscow
@@ -19,10 +19,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Download features from artifact
+      - name: Download model input from artifact
         uses: aochmann/actions-download-artifact@master
         with:
-          name: features.json
+          name: model_input.csv
+          latest: true
+          path: ./data/
+      - name: Download predictions from artifact
+        uses: aochmann/actions-download-artifact@master
+        with:
+          name: predictions-2023.csv
           latest: true
           path: ./data/
       - name: Download model from artifact
@@ -31,38 +37,17 @@ jobs:
           name: model.joblib
           latest: true
           path: ./data/
-      - name: Download history from artifact
-        uses: aochmann/actions-download-artifact@master
-        with:
-          name: history-2023.csv
-          latest: true
-          path: ./data/
       - name: Install dependencies from Pipfile
         run: |
           python -m pip install --upgrade pip
           python -m pip install --upgrade pipenv
           pipenv install --deploy
-      - name: Run the CLI command to download data for season 2023
+      - name: Run the CLI command to explain predictions
         run: |
-          pipenv run python . download --season 2022 2023
-      - name: Run the CLI command to predict model
-        run: |
-          pipenv run python . predict
-      - name: Upload predictions as artifact
-        uses: actions/upload-artifact@v2
-        with: 
-          name: predictions-2023.csv
-          path: ./data/predictions-2023.csv
-          retention-days: 10
-      - name: Upload history as artifact
-        uses: actions/upload-artifact@v2
-        with: 
-          name: history-2023.csv
-          path: ./data/history-2023.csv
-          retention-days: 10
-      - name: Upload model input dataset as artifact
+          pipenv run python . explain
+      - name: Upload SHAP values dataset as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: model_input.csv
-          path: ./data/model_input.csv
+          name: shap_values-2023.csv
+          path: ./data/shap_values-2023.csv
           retention-days: 10

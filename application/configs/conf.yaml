@@ -1,6 +1,10 @@
 data:
   model:
     path: ./data/model.joblib
+  model-input:
+    path: ./data/model_input.csv
+    sep: ;
+    encoding: utf-8
   player-stats:
     path: ./data/player_stats.csv.zip
     sep: ;
@@ -32,11 +36,11 @@ data:
     encoding: utf-8
     compression: zip
   predictions:
-    path: ./data/predictions.csv
+    path: ./data/predictions-2023.csv
     sep: ;
     encoding: utf-8
   history:
-    path: ./data/history.csv
+    path: ./data/history-2023.csv
     sep: ;
     encoding: utf-8
   features:
@@ -46,7 +50,11 @@ data:
   performances:
     path: ./data/performances.csv
     sep: ;
-    encoding: utf-8
+      encoding: utf-8
+  shap-values:
+    path: .data/shap_values-2023.csv
+    sep: ;
+  encoding: utf-8
 
 
 web:

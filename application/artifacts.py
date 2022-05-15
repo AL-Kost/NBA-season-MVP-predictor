@@ -12,20 +12,18 @@ def get_artifacts():
     """
     github_repo = conf.web.github_repo
     url = f"https://api.github.com/repos/{github_repo}/actions/artifacts?per_page=100"
-    artifacts = load_json_from_url(url)
+    auth = get_github_auth()
+    artifacts = load_json_from_url(url, auth=auth)
     return artifacts
 
 
-def load_json_from_url(url: str):
+def load_json_from_url(url: str, auth=None):
     """Loads a JSON file into memory from URL
-
-    Args:
-        url (str): URL of the file
 
     Returns:
          dict: Dictionary from the JSON file
     """
-    response = requests.get(url)
+    response = requests.get(url, auth=auth)
     if response.status_code == 403:
         raise Exception(f"Error 403 when requesting {url} : {response.content}")
     return response.json()
@@ -70,6 +68,9 @@ def get_last_artifact(artifact_name: str):
         artifact_url = artifact.get("archive_download_url")
         artifact_datetime = datetime.strptime(artifact_datetime, "%Y-%m-%dT%H:%M:%SZ")
         results[artifact_datetime] = artifact_url
-    last_result = sorted(results.items(), reverse=True)[0]
+    try:
+        last_result = sorted(results.items(), reverse=True)[0]
+    except IndexError:
+        raise IOError(f"No artifact found with name {artifact_name}")
     logger.debug(f"Last available artifact: {last_result}")
     return last_result

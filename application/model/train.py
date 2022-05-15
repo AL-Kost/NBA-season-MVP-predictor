@@ -1,11 +1,24 @@
 from datetime import datetime
 import joblib
 import json
-from sklearn import model_selection, metrics, neural_network, base
+from sklearn import (
+    dummy,
+    tree,
+    model_selection,
+    metrics,
+    preprocessing,
+    linear_model,
+    ensemble,
+    neural_network,
+    base
+)
 import pandas
 import numpy
 from application import conf, logger, data_preprocess
 from application.utils import load, analyze
+
+_MIN_TARGET_CORRELATION = 0.05
+_MAX_FEATURES_CORRELATION = 0.95
 
 
 def make_bronze_data():
@@ -17,15 +30,15 @@ def make_bronze_data():
         logger.warning("Duplicated rows in MVP votes!")
     bronze = (
         player_stats.reset_index(drop=False)
-                    .merge(mvp_votes, how="left", on=["PLAYER", "TEAM", "SEASON"])
-                    .set_index(player_stats.index.name)
+            .merge(mvp_votes, how="left", on=["PLAYER", "TEAM", "SEASON"])
+            .set_index(player_stats.index.name)
     )
     if team_standings.duplicated(subset=["TEAM", "SEASON"]).sum() > 0:
         logger.warning("Duplicated rows in team standings!")
     bronze = (
         bronze.reset_index(drop=False)
-              .merge(team_standings, how="inner", on=["TEAM", "SEASON"])
-              .set_index(bronze.index.name)
+            .merge(team_standings, how="inner", on=["TEAM", "SEASON"])
+            .set_index(bronze.index.name)
     )
     for col in ["MVP_WINNER", "MVP_PODIUM", "MVP_CANDIDATE"]:
         bronze[col] = bronze[col].fillna(False)
@@ -56,9 +69,9 @@ def make_silver_data():
     # Team ranked 10th in conference at least
     for season in data.SEASON.unique():
         max_g = data[data.SEASON == season]["G"].max()
-        treshold = 0.5 * max_g
+        threshold = 0.5 * max_g
         data = data[
-            (data.SEASON != season) | ((data.SEASON == season) & (data.G >= treshold))
+            (data.SEASON != season) | ((data.SEASON == season) & (data.G >= threshold))
             ]
     data = data[data["CONF_RANK"] <= 10]
     data = data[data["MP"] >= 24.0]
@@ -107,7 +120,7 @@ def make_gold_data_and_train_model():
         ", ".join(cat_features),
     )
 
-    corr_threshold = 0.98
+    corr_threshold = _MAX_FEATURES_CORRELATION
     num_features = list(
         analyze.get_columns_with_inter_correlations_under(
             data[num_features], corr_threshold
@@ -180,7 +193,7 @@ def make_gold_data_and_train_model():
     data_all = data.copy()
 
     n_features = None
-    treshold = 0.05
+    threshold = _MIN_TARGET_CORRELATION
 
     data_for_corr_analysis = data_trainval[
         selected_num_features
@@ -192,7 +205,7 @@ def make_gold_data_and_train_model():
         target,
         method=method,
         n_features=n_features,
-        treshold=treshold,
+        threshold=threshold,
     )
     method = "kendall"
     top_corr_kendall = filter_by_correlation_with_target(
@@ -200,7 +213,7 @@ def make_gold_data_and_train_model():
         target,
         method=method,
         n_features=n_features,
-        treshold=treshold,
+        threshold=threshold,
     )
     method = "spearman"
     top_corr_spearman = filter_by_correlation_with_target(
@@ -208,7 +221,7 @@ def make_gold_data_and_train_model():
         target,
         method=method,
         n_features=n_features,
-        treshold=treshold,
+        threshold=threshold,
     )
 
     selected_features_pearson = top_corr_pearson.index.tolist()
@@ -248,14 +261,14 @@ def make_gold_data_and_train_model():
         hidden_layer_sizes=9,
         learning_rate="adaptive",
         learning_rate_init=0.065,
-        random_state=666
+        random_state=0
     )
     regressors = [regressor]
 
     splits = 3
     repeats = 2
     splitter = model_selection.RepeatedKFold(
-        n_splits=splits, n_repeats=repeats, random_state=666
+        n_splits=splits, n_repeats=repeats, random_state=0
     )
 
     logger.debug("Fitting model...")
@@ -279,6 +292,7 @@ def make_gold_data_and_train_model():
         train_MAXs = []
         val_MAEs = []
         val_MSEs = []
+        val_MSLEs = []
         val_MAPEs = []
         val_MAXs = []
 
@@ -354,6 +368,8 @@ def make_gold_data_and_train_model():
     print(results.AE.max())
     print(numpy.mean(results.AE ** 2))
     all_winners["Real MVP rank"] = 1
+    all_winners["PRED_RANK"] = all_winners["PRED_RANK"].clip(upper=10)
+    all_winners["REAL_RANK"] = all_winners["REAL_RANK"].clip(upper=10)
     print("Percentage of MVP well found on the test set:")
     print(
         (all_winners["Pred. MVP"] == all_winners["True MVP"]).sum() / len(all_winners)
@@ -376,18 +392,18 @@ def make_gold_data_and_train_model():
 
 
 def filter_by_correlation_with_target(
-        data, target, method="pearson", n_features=None, treshold=None
+        data, target, method="pearson", n_features=None, threshold=None
 ):
     print("Method :", method)
-    if n_features is not None and treshold is None:
+    if n_features is not None and threshold is None:
         top_corr = analyze.get_columns_correlation_with_target(
             data, target, method=method
         )[:n_features]
-    elif n_features is None and treshold is not None:
+    elif n_features is None and threshold is not None:
         top_corr = analyze.get_columns_correlation_with_target(
             data, target, method=method
         )
-        top_corr = top_corr[top_corr > treshold]
+        top_corr = top_corr[top_corr > threshold]
     else:
         raise Exception("Invalid arguments")
 

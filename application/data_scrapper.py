@@ -1,8 +1,9 @@
 import datetime
-from abc import ABC, abstractmethod
+import time
+import lxml
 import requests
 import pandas
-import lxml
+from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
 from basketball_reference_scraper.seasons import get_standings
 from application.utils import util_functions
@@ -160,6 +161,7 @@ class BasketballReferenceScrapper(Scrapper):
                     data[col] = data[col].fillna(0.0)
             return data
         else:
+            retry_after = r.headers["Retry-After"]
             raise ConnectionError(
                 "Could not connect to BR and get data, status code : %s", r.status_code
             )
@@ -278,6 +280,7 @@ class BasketballReferenceScrapper(Scrapper):
 
         season_dfs = []
         for season in seasons:
+            time.sleep(5)
             do_not_suffix = [
                 "PLAYER",
                 "POS",
@@ -295,6 +298,7 @@ class BasketballReferenceScrapper(Scrapper):
             ]
             stat_type_dfs = []
             for stat_type in stat_types:
+                time.sleep(5)
                 logger.debug(f"Retrieving {stat_type} stats for season {season}...")
                 try:
                     stat_type_df = self.get_roster_stats_v2(season, stat_type)
