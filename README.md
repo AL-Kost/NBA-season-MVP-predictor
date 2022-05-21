@@ -1,7 +1,8 @@
-[![tests](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/tests.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/tests.yaml)
+[![test](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/test.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/test.yaml)
 [![train](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/train.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/train.yaml)
 [![predict](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/predict.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/predict.yaml)
-
+[![explain](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/explain.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/explain.yaml)
+[![renew](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/renew.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/renew.yaml)
 # **NBA season MVP Predict🏀r** 
 
 ## Project goal & Results
