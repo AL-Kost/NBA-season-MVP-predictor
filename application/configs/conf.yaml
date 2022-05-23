@@ -50,11 +50,11 @@ data:
   performances:
     path: ./data/performances.csv
     sep: ;
-      encoding: utf-8
+    encoding: utf-8
   shap-values:
     path: .data/shap_values-2023.csv
     sep: ;
-  encoding: utf-8
+    encoding: utf-8
 
 
 web:
