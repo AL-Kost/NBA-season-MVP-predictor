@@ -5,7 +5,7 @@ import requests
 import pandas
 from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
-from basketball_reference_scraper.seasons import get_standings
+from application.get_seasons_data import get_standings
 from application.utils import util_functions
 from application import logger
 
