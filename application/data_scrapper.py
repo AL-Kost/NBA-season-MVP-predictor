@@ -1,5 +1,4 @@
 import datetime
-import time
 import lxml
 import yaml
 import requests
@@ -245,7 +244,6 @@ class BasketballReferenceScrapper(Scrapper):
         Get a set of stats.
         Defaults to all teams, all seasons, all stat types.
         """
-        logger.info("First crapping checkpoint...")
         year = datetime.datetime.now().year
         month = datetime.datetime.now().month
         if month > 9:
@@ -260,7 +258,6 @@ class BasketballReferenceScrapper(Scrapper):
         ]
         allowed_seasons = range(1974, year + 1)
         allowed_teams = list(set(self.team_names.values()))
-        logger.info("Second scrapper checkpoint...")
         if subset_by_teams is not None:
             subset_by_teams = [str(s).upper() for s in subset_by_teams]
 
@@ -270,7 +267,6 @@ class BasketballReferenceScrapper(Scrapper):
             ]
         else:
             seasons = allowed_seasons
-        logger.info("Third scrapper checkpoint...")
         if subset_by_stat_types is not None:
             subset_by_stat_types = [str(s).lower() for s in subset_by_stat_types]
             stat_types = [
@@ -280,10 +276,8 @@ class BasketballReferenceScrapper(Scrapper):
             ]
         else:
             stat_types = allowed_stat_types
-        logger.info("4 scrapper checkpoint...")
         season_dfs = []
         for season in seasons:
-            time.sleep(5)
             do_not_suffix = [
                 "PLAYER",
                 "POS",
@@ -301,7 +295,6 @@ class BasketballReferenceScrapper(Scrapper):
             ]
             stat_type_dfs = []
             for stat_type in stat_types:
-                time.sleep(5)
                 logger.debug(f"Retrieving {stat_type} stats for season {season}...")
                 try:
                     stat_type_df = self.get_roster_stats_v2(season, stat_type)
