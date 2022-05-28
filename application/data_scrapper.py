@@ -295,7 +295,7 @@ class BasketballReferenceScrapper(Scrapper):
             ]
             stat_type_dfs = []
             for stat_type in stat_types:
-                logger.debug(f"Retrieving {stat_type} stats for season {season}...")
+                logger.info(f"Retrieving {stat_type} stats for season {season}...")
                 try:
                     stat_type_df = self.get_roster_stats_v2(season, stat_type)
                 except Exception as e:
