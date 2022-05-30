@@ -1,6 +1,7 @@
 import datetime
 import lxml
 import yaml
+import time
 import requests
 import pandas
 from abc import ABC, abstractmethod
@@ -105,7 +106,8 @@ class BasketballReferenceScrapper(Scrapper):
             seasons = allowed_seasons
         total_dfs = []
         for season in seasons:
-            logger.debug(f"Retrieving MVP of season {season}...")
+            time.sleep(5)
+            logger.info(f"Retrieving MVP of season {season}...")
             results = self.retrieve_mvp_votes(season)
             results.loc[:, "player_season_team"] = (
                     results["PLAYER"].str.replace(" ", "")
@@ -184,14 +186,16 @@ class BasketballReferenceScrapper(Scrapper):
             seasons = allowed_seasons
         total_dfs = []
         for season in seasons:
-            logger.debug(f"Retrieving standings of season {season}...")
+            time.sleep(5)
+            logger.info(f"Retrieving standings of season {season}...")
             date = "06-01-" + str(season)
             dfs = []
             results = get_standings(date=date)
             for conference, data in results.items():
-                logger.debug(f"Standings data columns: {', '.join(data.columns)}")
+                time.sleep(5)
+                logger.info(f"Standings data columns: {', '.join(data.columns)}")
                 data = data.dropna(axis="index", how="any")
-                logger.debug(
+                logger.info(
                     f"First column name before renaming: {data.columns.values[0]}"
                 )
                 data = data.rename(columns={data.columns[0]: "TEAM"})
@@ -205,7 +209,7 @@ class BasketballReferenceScrapper(Scrapper):
                 data = data[~data["TEAM"].str.contains("DIVISION")]
                 data = data.sort_values(by="W/L%", ascending=False)
                 data = data.reset_index(drop=True)
-                logger.debug(f"Conference : {conference}")
+                logger.info(f"Conference : {conference}")
                 data.loc[:, "CONF"] = (
                     conference.replace(" ", "_").upper().replace("CONFERENCE", "CONF")
                 )
@@ -278,6 +282,7 @@ class BasketballReferenceScrapper(Scrapper):
             stat_types = allowed_stat_types
         season_dfs = []
         for season in seasons:
+            time.sleep(5)
             do_not_suffix = [
                 "PLAYER",
                 "POS",
@@ -295,6 +300,7 @@ class BasketballReferenceScrapper(Scrapper):
             ]
             stat_type_dfs = []
             for stat_type in stat_types:
+                time.sleep(5)
                 logger.info(f"Retrieving {stat_type} stats for season {season}...")
                 try:
                     stat_type_df = self.get_roster_stats_v2(season, stat_type)

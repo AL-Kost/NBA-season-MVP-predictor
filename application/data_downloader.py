@@ -29,12 +29,10 @@ def download_data(
 
 def download_player_stats(seasons: List[int], scrapper: data_scrapper.Scrapper):
     # We don't retrieve totals stats since we want to be able to predict at any moment in the season, no matter what
-    logger.info("Trying to download data...")
     data = scrapper.get_player_stats(
         subset_by_seasons=seasons,
         subset_by_stat_types=["per_game", "per_36min", "per_100poss", "advanced"]
     )
-    logger.info("Download finished...")
     data.to_csv(
         conf.data.player_stats.path,
         sep=conf.data.player_stats.sep,
@@ -42,7 +40,6 @@ def download_player_stats(seasons: List[int], scrapper: data_scrapper.Scrapper):
         compression=conf.data.player_stats.compression,
         index=True
     )
-    logger.info("Data is saved...")
 
 
 def download_mvp_votes(seasons: List[int], scrapper: data_scrapper.Scrapper):
