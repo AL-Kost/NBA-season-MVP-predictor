@@ -45,6 +45,5 @@ Many thanks to the authors of the site for creating such a user-friendly reposit
 
 ## Future work and model improvement
 
-- Learn PyTorch and replace sklearn.MLPRegressor with LSTM or other neural network architecture model
 - Write [Telegram bot](http://t.me/NBA_MVP_Predictor_bot)
 
