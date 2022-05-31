@@ -2,13 +2,8 @@ from datetime import datetime
 import joblib
 import json
 from sklearn import (
-    dummy,
-    tree,
     model_selection,
     metrics,
-    preprocessing,
-    linear_model,
-    ensemble,
     neural_network,
     base
 )
@@ -52,7 +47,7 @@ def make_bronze_data():
         sep=conf.data.bronze.sep,
         encoding=conf.data.bronze.encoding,
         compression=conf.data.bronze.compression,
-        index=True,
+        index=True
     )
 
 
@@ -89,7 +84,7 @@ def make_silver_data():
         sep=conf.data.silver.sep,
         encoding=conf.data.silver.encoding,
         compression=conf.data.silver.compression,
-        index=True,
+        index=True
     )
 
 
@@ -117,7 +112,7 @@ def make_gold_data_and_train_model():
         "(",
         len(cat_features),
         ") :\n",
-        ", ".join(cat_features),
+        ", ".join(cat_features)
     )
 
     corr_threshold = _MAX_FEATURES_CORRELATION
@@ -154,7 +149,7 @@ def make_gold_data_and_train_model():
         selected_cat_features,
         selected_num_features,
         data["SEASON"],
-        min_max_scaler=min_max_scaling,
+        min_max_scaler=min_max_scaling
     )
     selected_cat_features_numerized = [
         f
@@ -172,7 +167,7 @@ def make_gold_data_and_train_model():
         sep=conf.data.gold.sep,
         encoding=conf.data.gold.encoding,
         compression=conf.data.gold.compression,
-        index=True,
+        index=True
     )
 
     data = load.load_gold_data()
@@ -205,7 +200,7 @@ def make_gold_data_and_train_model():
         target,
         method=method,
         n_features=n_features,
-        threshold=threshold,
+        threshold=threshold
     )
     method = "kendall"
     top_corr_kendall = filter_by_correlation_with_target(
@@ -213,7 +208,7 @@ def make_gold_data_and_train_model():
         target,
         method=method,
         n_features=n_features,
-        threshold=threshold,
+        threshold=threshold
     )
     method = "spearman"
     top_corr_spearman = filter_by_correlation_with_target(
@@ -221,7 +216,7 @@ def make_gold_data_and_train_model():
         target,
         method=method,
         n_features=n_features,
-        threshold=threshold,
+        threshold=threshold
     )
 
     selected_features_pearson = top_corr_pearson.index.tolist()
@@ -383,7 +378,7 @@ def make_gold_data_and_train_model():
         sep=conf.data.performances.sep,
         encoding=conf.data.performances.encoding,
         compression=conf.data.performances.compression,
-        index=True,
+        index=True
     )
 
     final_regressor = base.clone(regressor)

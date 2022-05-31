@@ -4,7 +4,6 @@ import re
 import streamlit as st
 import pandas
 import numpy
-from matplotlib import pyplot
 from application import conf, sidebar, logger
 from application import data_downloader, artifacts
 from application.model import evaluate
@@ -27,7 +26,7 @@ def build_predictions():
         encoding=conf.data.predictions.encoding,
         compression="zip",
         index_col=0,
-        dtype={},
+        dtype={}
     )
     predictions = predictions.set_index("PLAYER", drop=True)
     return predictions
@@ -59,7 +58,7 @@ def build_performances():
         encoding=conf.data.performances.encoding,
         compression="zip",
         index_col=0,
-        dtype={},
+        dtype={}
     )
     performances.index = performances.index.rename("Season")
     performances.REAL_RANK = performances.REAL_RANK.astype("Int32")
@@ -158,7 +157,7 @@ def build_history():
         encoding=conf.data.history.encoding,
         compression="zip",
         index_col=False,
-        dtype={},
+        dtype={}
     )
     history = history.rename(
         columns={"DATE": "date", "PLAYER": "player", "PRED": "prediction"}
@@ -226,7 +225,7 @@ def run():
         page_title="NBA season MVP predictor",
         page_icon=":basketball:",
         layout="wide",
-        initial_sidebar_state="auto",
+        initial_sidebar_state="auto"
     )
     st.title("NBA season MVP Predict🏀r")
     inject_google_analytics_tag()

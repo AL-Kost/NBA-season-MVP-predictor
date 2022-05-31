@@ -44,7 +44,7 @@ def get_parser():
         required=False,
         help="Seasons to download data for",
         nargs="+",
-        type=int,
+        type=int
     )
     subparser.add_parser("train", help="Train a model on downloaded data")
     subparser.add_parser("predict", help="Make predictions with the trained model")

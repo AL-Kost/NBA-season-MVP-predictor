@@ -1,6 +1,5 @@
 from typing import List
 import requests
-import lxml
 from application import conf, logger
 from application import data_scrapper
 
@@ -11,7 +10,6 @@ def download_data(
 ):
     logger.info("Downloading player stats...")
     try:
-        logger.info("We are in try section...")
         download_player_stats(seasons=seasons, scrapper=scrapper)
     except Exception as e:
         logger.error(f"Downloading player stats failed : {e}")
