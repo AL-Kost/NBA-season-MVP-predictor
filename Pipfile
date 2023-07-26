@@ -19,7 +19,7 @@ PyYAML = "==6.0"
 protobuf = "==3.20.*"
 shap = "*"
 importlib-resources = "*"
-altair = "==4.0"
+altair = "==4.0.0"
 
 [dev-packages]
 
