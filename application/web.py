@@ -201,18 +201,6 @@ def local_css(file_name):
     with open(file_name) as f:
         st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
-
-# @st.cache
-def inject_google_analytics_tag():
-    index_path = os.path.dirname(st.__file__) + "/static/index.html"
-    with open(index_path, "r") as f:
-        data = f.read()
-        if len(re.findall("G-", data)) == 0:
-            with open(index_path, "w") as ff:
-                newdata = re.sub("<head>", "<head>", data)
-                ff.write(newdata)
-
-
 def remove_trailing_sequence(string, sequence):
     if string.endswith(sequence):
         return string[: -len(sequence)]
@@ -228,7 +216,6 @@ def run():
         initial_sidebar_state="auto"
     )
     st.title("NBA season MVP Predict🏀r")
-    inject_google_analytics_tag()
     local_css("application/css/custom.css")
     try:
         predictions = build_predictions()
