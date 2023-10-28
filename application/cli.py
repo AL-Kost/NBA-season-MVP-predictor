@@ -1,72 +1,83 @@
 import argparse
 import sys
+
 import streamlit.cli
+
 from application import data_downloader
 from application.model import train, predict, explain
 
 
-def download_data(args=None):
-    """Download data"""
+def download_data(args):
+    """Download data for the specified seasons."""
     data_downloader.download_data(args.seasons)
 
 
-def train_model(args=None):
-    """Train a model on dowloaded data"""
+def train_model():
+    """Train a model on downloaded data."""
     train.train_model()
 
 
-def make_predictions(args=None):
-    """Make predictions with the trained model"""
+def make_predictions():
+    """Make predictions with the trained model."""
     predict.make_predictions()
 
 
-def explain_model(args=None):
-    """Explain model decisions"""
+def explain_model():
+    """Provide explanations for model decisions."""
     explain.explain_model()
 
 
-def run_webapp(args=None):
-    """Run the web application"""
+def run_webapp():
+    """Initialize and run the web application."""
     sys.argv = ["0", "run", "./streamlit_app.py"]
     streamlit.cli.main()
 
 
 def get_parser():
-    """
-    Creates a new argument parser.
-    """
-    parser = argparse.ArgumentParser()
-    subparser = parser.add_subparsers(dest="command")
-    subparser.add_parser("web", help="Run the web application showing predictions")
-    download_parser = subparser.add_parser("download", help="Download data")
+    """Set up the CLI argument parser."""
+
+    parser = argparse.ArgumentParser(description="CLI for data operations and model training/predictions.")
+
+    subparsers = parser.add_subparsers(dest="command")
+
+    # Web application command
+    subparsers.add_parser("web", help="Run the web application showing predictions")
+
+    # Data download command
+    download_parser = subparsers.add_parser("download", help="Download data")
     download_parser.add_argument(
         "--seasons",
         required=False,
-        help="Seasons to download data for",
         nargs="+",
-        type=int
+        type=int,
+        help="Seasons to download data for"
     )
-    subparser.add_parser("train", help="Train a model on downloaded data")
-    subparser.add_parser("predict", help="Make predictions with the trained model")
-    subparser.add_parser("explain", help="Explain the predictions made by the model")
+
+    # Model-related commands
+    subparsers.add_parser("train", help="Train a model on downloaded data")
+    subparsers.add_parser("predict", help="Make predictions with the trained model")
+    subparsers.add_parser("explain", help="Explain the predictions made by the model")
+
     return parser
 
 
 def run(args=None):
-    """CLI entry point.
+    """Main CLI entry point."""
 
-    Args:
-        args : List of args as input of the command line.
-    """
     parser = get_parser()
-    args = parser.parse_args(args)
-    if args.command == "web":
-        run_webapp(args)
-    elif args.command == "download":
-        download_data(args)
-    elif args.command == "train":
-        train_model(args)
-    elif args.command == "predict":
-        make_predictions(args)
-    elif args.command == "explain":
-        explain_model(args)
+    parsed_args = parser.parse_args(args)
+
+    commands = {
+        "web": run_webapp,
+        "download": download_data,
+        "train": train_model,
+        "predict": make_predictions,
+        "explain": explain_model
+    }
+
+    if parsed_args.command in commands:
+        commands[parsed_args.command](parsed_args)
+
+
+if __name__ == "__main__":
+    run()

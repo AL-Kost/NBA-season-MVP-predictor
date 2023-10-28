@@ -134,12 +134,7 @@ def make_gold_data_and_train_model():
 
     selected_num_features = list(num_features)
     selected_cat_features = list(cat_features)
-    min_max_scaling = False  # else it's stdev
-
-    if min_max_scaling:
-        standardized_type = "min_max"
-    else:
-        standardized_type = "std"
+    min_max_scaling = False
 
     print("'" + "', '".join(selected_cat_features) + "'")
     print("'" + "', '".join(selected_num_features) + "'")
@@ -183,7 +178,6 @@ def make_gold_data_and_train_model():
     trainval_seasons = sorted(data.SEASON.unique())[:-num_test_seasons]
     logger.debug(f"Test seasons : {test_seasons[0]} to {test_seasons[-1]}")
     logger.debug(f"Trainval seasons : {trainval_seasons[0]} to {trainval_seasons[-1]}")
-    data_test = data[data.SEASON.isin(test_seasons)]
     data_trainval = data[data.SEASON.isin(trainval_seasons)]
     data_all = data.copy()
 
@@ -238,9 +232,6 @@ def make_gold_data_and_train_model():
     X_trainval = data_trainval[selected_features + selected_cat_features_numerized]
     y_trainval = data_trainval[target]
 
-    X_test = data_test[selected_features + selected_cat_features_numerized]
-    y_test = data_test[target]
-
     X_all = data_all[selected_features + selected_cat_features_numerized]
     y_all = data_all[target]
 
@@ -287,7 +278,6 @@ def make_gold_data_and_train_model():
         train_MAXs = []
         val_MAEs = []
         val_MSEs = []
-        val_MSLEs = []
         val_MAPEs = []
         val_MAXs = []
 
@@ -409,8 +399,6 @@ def train_model():
     try:
         make_bronze_data()
         make_silver_data()
-        # make_gold_data()
-        # train_on_gold()
         make_gold_data_and_train_model()
     except Exception as e:
         logger.error(f"Training model failed : {e}")

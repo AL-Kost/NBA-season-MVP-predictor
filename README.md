@@ -3,47 +3,43 @@
 [![predict](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/predict.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/predict.yaml)
 [![explain](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/explain.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/explain.yaml)
 [![renew](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/renew.yaml/badge.svg)](https://github.com/AL-Kost/NBA-season-MVP-predictor/actions/workflows/renew.yaml)
-# **NBA season MVP Predict🏀r** 
 
-## Project goal & Results
+<p align="center">
 
-This project aims at predicting the player who will win the NBA MVP award, by modelling the voting panel. The NBA MVP is given since the 1955–56 season to the best performing player of the regular season. Until the 1979–80 season, the MVP was selected by a vote of NBA players. Since the 1980–81 season, the award is decided by a panel of sportswriters and broadcasters - more info [here](https://en.wikipedia.org/wiki/NBA_Most_Valuable_Player_Award).
+# **NBA Season MVP Predictor** 🏀
 
-You can analyze the results of model by exploring the developed and deployed Streamlit application via this [link](https://share.streamlit.io/al-kost/nba-season-mvp-predictor/main).
+</p>
 
+<p align="center">
+  <img src="application/utils/application_readme_logo.png" alt="NBA season MVP Predictor Logo" width="300">
+</p>
 
-## Main challenges
+## Overview
+The **NBA Season MVP Predictor** project focuses on predicting the NBA player most likely to win the MVP award for the season. The award has been given out since the 1955-56 season, recognizing the top performer of the regular NBA season. 
 
+Learn more about the MVP award's history on [Wikipedia](https://en.wikipedia.org/wiki/NBA_Most_Valuable_Player_Award).
 
-#### Imbalanced data 
+🔍 Explore the predictor's results via our deployed [Streamlit application](https://share.streamlit.io/al-kost/nba-season-mvp-predictor/main).
 
-There is only 1 MVP per year, among hundreds of players.
+## Key Challenges
 
-Current approach to solve this problem :
+### 1. Imbalanced Data
+With only one MVP each year amidst hundreds of players, the data imbalance is stark.
 
-- Use MVP share instead of MVP award as the target variable (regression model). A dozen of players receive votes each season.
-- Use generally accepted tresholds to filter non-MVP players and reduce the imbalance : 
-  - More than 50% of the season games played
-  - More than 24 minutes played per game
-  - Team ranked in the conference top-10 (play-in qualifier)
+**Solutions**:
+- **Target Variable**: Instead of the MVP award, use the MVP share. This allows for a regression model, as multiple players receive votes every season.
+- **Data Filtering**: Set thresholds to exclude non-MVP contenders:
+  - Players participating in over 50% of season games.
+  - Players with a minimum of 24 minutes playtime per game.
+  - Players from teams ranking within the top-10 in their conference.
 
-#### Label consistency
+### 2. Label Inconsistency
+MVP winners may vary year-on-year, even with consistent stats, depending on the competition.
 
-A player winning MVP one year may not have won MVP the year before, event with the same stats. It all depends on the other players competition.
+**Solutions**:
+- **Stat Normalization per Season**:
+  - Employ min-max scaling.
+  - Standardize the data.
 
-Current solution:
-
-- Normalize stats per season
-  - Min-max scaling
-  - Standardization
-
-## Data
-
-All data was scraped from https://www.basketball-reference.com/.
-
-Many thanks to the authors of the site for creating such a user-friendly repository of statistical data.
-
-## Future work and model improvement
-
-- Write [Telegram bot](http://t.me/NBA_MVP_Predictor_bot)
-
+## Data Source
+All statistical data for this project was meticulously scraped from [Basketball Reference](https://www.basketball-reference.com/). A heartfelt thank you to the creators for such a comprehensive and user-friendly database.
