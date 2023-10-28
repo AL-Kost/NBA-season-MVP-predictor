@@ -16,7 +16,7 @@ def get_artifacts() -> dict:
     """
     github_repo = conf.web.github_repo
     url = f"https://api.github.com/repos/{github_repo}/actions/artifacts?per_page={MAX_ARTIFACTS_PER_PAGE}"
-    auth = _get_github_auth()
+    auth = get_github_auth()
     return _load_json_from_url(url, auth)
 
 
@@ -42,7 +42,7 @@ def _load_json_from_url(url: str, auth=None) -> dict:
     return response.json()
 
 
-def _get_github_auth() -> tuple:
+def get_github_auth() -> tuple:
     """
     Retrieve GitHub authentication details from the environment.
 

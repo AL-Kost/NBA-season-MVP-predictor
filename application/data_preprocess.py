@@ -1,118 +1,138 @@
-import pandas
-import numpy
-import sklearn
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 
-def standardize(dataframe, fit_on=None, fit_per_values_of=None, min_max_scaler=False):
-    if min_max_scaler:
-        scaler = sklearn.preprocessing.MinMaxScaler()
-    else:
-        scaler = sklearn.preprocessing.StandardScaler(with_mean=True, with_std=True)
+def standardize(dataframe: pd.DataFrame, fit_on: pd.DataFrame = None,
+                fit_per_values_of: pd.Series = None, min_max_scaler: bool = False) -> pd.DataFrame:
+    """
+    Standardize the dataframe using MinMaxScaler or StandardScaler.
+
+    Args:
+        dataframe: Input dataframe to standardize.
+        fit_on: Dataframe to fit the scaler on.
+        fit_per_values_of: Series to fit the scaler on unique values.
+        min_max_scaler: Use MinMaxScaler if True, otherwise StandardScaler.
+
+    Returns:
+        A standardized dataframe.
+    """
+    scaler = MinMaxScaler() if min_max_scaler else StandardScaler(with_mean=True, with_std=True)
+
     if fit_on is not None and fit_per_values_of is not None:
         raise NotImplementedError
-    if fit_on is None:
-        fit_on = dataframe.copy()
+
     scaled = dataframe.copy()
+    fit_on = fit_on or dataframe.copy()
+
     if fit_per_values_of is not None:
-        series = fit_per_values_of.copy()
-        for unique in series.unique():
-            curr_index = series[series == unique].index
+        for unique in fit_per_values_of.unique():
+            curr_index = fit_per_values_of[fit_per_values_of == unique].index
             df_subset = dataframe.loc[curr_index, :]
-            scaler.fit(df_subset[df_subset.columns])
-            scaled.loc[curr_index, scaled.columns] = scaler.transform(
-                df_subset[df_subset.columns]
-            )
+            scaler.fit(df_subset)
+            scaled.loc[curr_index, :] = scaler.transform(df_subset)
     else:
-        scaler.fit(fit_on[fit_on.columns])
-        scaled[scaled.columns] = scaler.transform(dataframe[dataframe.columns])
-    return scaled
+        scaler.fit(fit_on)
+        scaled = scaler.transform(dataframe)
+
+    return pd.DataFrame(scaled, columns=dataframe.columns)
 
 
-def get_numerical_columns(dataframe):
-    """Get columns of type number
-
-    Args:
-        dataframe (pandas.DataFrame): Data frame
-
-    Returns:
-        list[str]: Columns
+def get_numerical_columns(dataframe: pd.DataFrame) -> list:
     """
-    return dataframe.select_dtypes(include="number").columns
-
-
-def get_categorical_columns(dataframe):
-    """Get columns of type non-number
+    Get numerical columns from the dataframe.
 
     Args:
-        dataframe (pandas.DataFrame): Data frame
+        dataframe: Input dataframe.
 
     Returns:
-        list[str]: Columns
+        List of numerical column names.
     """
-    return dataframe.select_dtypes(exclude="number").columns
+    return dataframe.select_dtypes(include="number").columns.tolist()
 
 
-def natural_log_transform(series):
-    """Perform natural log transformation
-
-    Args:
-        series (pandas.Series): Series to transform
-
-    Returns:
-        pandas.Series: Transformed series
+def get_categorical_columns(dataframe: pd.DataFrame) -> list:
     """
-    return numpy.log(series + 1)
-
-
-def exp_transform(series):
-    """Perform exponential transformation
+    Get non-numerical columns from the dataframe.
 
     Args:
-        series (pandas.Series): Series to transform
+        dataframe: Input dataframe.
 
     Returns:
-        pandas.Series: Transformed series
+        List of non-numerical column names.
     """
-    return numpy.exp(series)
+    return dataframe.select_dtypes(exclude="number").columns.tolist()
 
 
-def select_random_unique_values(series: pandas.Series, share: float):
-    """Select a set of random unique values
+def natural_log_transform(series: pd.Series) -> pd.Series:
+    """
+    Perform natural log transformation on the series.
 
     Args:
-        series (pandas.Series): Series to select values from
-        share (float): Share of unique values to select
+        series: Input series.
 
     Returns:
-        list[]: List of unique values
+        Transformed series.
+    """
+    return np.log(series + 1)
+
+
+def exp_transform(series: pd.Series) -> pd.Series:
+    """
+    Perform exponential transformation on the series.
+
+    Args:
+        series: Input series.
+
+    Returns:
+        Transformed series.
+    """
+    return np.exp(series)
+
+
+def select_random_unique_values(series: pd.Series, share: float) -> list:
+    """
+    Select a random set of unique values from the series.
+
+    Args:
+        series: Input series.
+        share: Fraction of unique values to select.
+
+    Returns:
+        List of unique values.
     """
     share_int = int(share * len(series.unique()))
-    sample = series.sample(share_int).tolist()
-    return sample
+    return series.sample(share_int).tolist()
 
 
-def scale_per_value_of(
-    data,
-    selected_cat_features,
-    selected_num_features,
-    fit_per_value_of,
-    min_max_scaler=True
-):
-    if selected_num_features is None or len(selected_num_features) == 0:
+def scale_per_value_of(data: pd.DataFrame, selected_cat_features: list, selected_num_features: list,
+                       fit_per_value_of: pd.Series, min_max_scaler: bool = True) -> tuple:
+    """
+    Scale dataframe values based on specified categorical and numerical features.
+
+    Args:
+        data: Input dataframe.
+        selected_cat_features: List of categorical features.
+        selected_num_features: List of numerical features.
+        fit_per_value_of: Series to fit the scaler on unique values.
+        min_max_scaler: Use MinMaxScaler if True, otherwise StandardScaler.
+
+    Returns:
+        Tuple containing processed dataframe and raw data.
+    """
+    if not selected_num_features:
         raise NotImplementedError("Need at least 1 numerical feature")
+
     processed_num_data = standardize(
-        data[selected_num_features],
-        fit_on=None,
-        fit_per_values_of=fit_per_value_of,
-        min_max_scaler=min_max_scaler
+        data[selected_num_features], fit_on=None, fit_per_values_of=fit_per_value_of, min_max_scaler=min_max_scaler
     )
-    if selected_cat_features is not None and len(selected_cat_features) > 0:
-        processed_cat_data = pandas.get_dummies(
-            data[selected_cat_features]
-        )
-        processed_data = pandas.concat([processed_num_data, processed_cat_data], axis=1)
+
+    if selected_cat_features:
+        processed_cat_data = pd.get_dummies(data[selected_cat_features])
+        processed_data = pd.concat([processed_num_data, processed_cat_data], axis=1)
         raw_data = data[selected_num_features + selected_cat_features]
     else:
         processed_data = processed_num_data
         raw_data = data[selected_num_features]
+
     return processed_data, raw_data

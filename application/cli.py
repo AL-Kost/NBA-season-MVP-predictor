@@ -67,16 +67,23 @@ def run(args=None):
     parser = get_parser()
     parsed_args = parser.parse_args(args)
 
-    commands = {
+    # Commands without arguments
+    no_arg_commands = {
         "web": run_webapp,
-        "download": download_data,
         "train": train_model,
         "predict": make_predictions,
         "explain": explain_model
     }
 
-    if parsed_args.command in commands:
-        commands[parsed_args.command](parsed_args)
+    # Commands with arguments
+    arg_commands = {
+        "download": download_data
+    }
+
+    if parsed_args.command in no_arg_commands:
+        no_arg_commands[parsed_args.command]()
+    elif parsed_args.command in arg_commands:
+        arg_commands[parsed_args.command](parsed_args)
 
 
 if __name__ == "__main__":
