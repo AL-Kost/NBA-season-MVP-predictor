@@ -34,7 +34,7 @@ jobs:
       - name: Download history from artifact
         uses: aochmann/actions-download-artifact@master
         with:
-          name: history-2023.csv
+          name: history-2024.csv
           latest: true
           path: ./data/
       - name: Install dependencies from Pipfile
@@ -42,23 +42,23 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --upgrade pipenv
           pipenv install --deploy
-      - name: Run the CLI command to download data for season 2023
+      - name: Run the CLI command to download data for season 2024
         run: |
-          pipenv run python . download --season 2022 2023
+          pipenv run python . download --season 2023 2024
       - name: Run the CLI command to predict model
         run: |
           pipenv run python . predict
       - name: Upload predictions as artifact
         uses: actions/upload-artifact@v2
         with: 
-          name: predictions-2023.csv
-          path: ./data/predictions-2023.csv
+          name: predictions-2024.csv
+          path: ./data/predictions-2024.csv
           retention-days: 10
       - name: Upload history as artifact
         uses: actions/upload-artifact@v2
         with: 
-          name: history-2023.csv
-          path: ./data/history-2023.csv
+          name: history-2024.csv
+          path: ./data/history-2024.csv
           retention-days: 10
       - name: Upload model input dataset as artifact
         uses: actions/upload-artifact@v2

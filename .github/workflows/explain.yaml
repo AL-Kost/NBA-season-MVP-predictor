@@ -28,7 +28,7 @@ jobs:
       - name: Download predictions from artifact
         uses: aochmann/actions-download-artifact@master
         with:
-          name: predictions-2023.csv
+          name: predictions-2024.csv
           latest: true
           path: ./data/
       - name: Download model from artifact
@@ -48,6 +48,6 @@ jobs:
       - name: Upload SHAP values dataset as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: shap_values-2023.csv
-          path: ./data/shap_values-2023.csv
+          name: shap_values-2024.csv
+          path: ./data/shap_values-2024.csv
           retention-days: 10
